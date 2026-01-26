@@ -52,11 +52,6 @@ body {
   min-height: 100vh;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -101,22 +96,6 @@ canvas {
 .container {
   width: min(100% - 3rem, var(--max-width));
   margin: 0 auto;
-}
-
-.skip-link {
-  position: absolute;
-  left: 1.5rem;
-  top: -48px;
-  background: var(--color-primary);
-  color: #fff;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  z-index: 20;
-  transition: var(--transition);
-}
-
-.skip-link:focus {
-  top: 1.2rem;
 }
 
 .visually-hidden {

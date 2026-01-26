@@ -27,10 +27,3 @@ Then open:
 ```
 http://localhost:5173
 ```
-
-## SEO and analytics
-
-- `robots.txt` and `sitemap.xml` are included for search indexing.
-- Open Graph share cards are provided via `og-image.svg`.
-- To enable GA4 analytics, set the `meta name="analytics-id"` value in
-  `index.html`. The loader respects Do Not Track.

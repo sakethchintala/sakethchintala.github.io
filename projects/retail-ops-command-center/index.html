@@ -8,63 +8,12 @@
       content="RetailOps Command Center - Real-time retail operations dashboard showcasing advanced frontend architecture."
     />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#0b1120" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="Saketh Chintala" />
-    <meta name="analytics-id" content="" />
-    <link
-      rel="canonical"
-      href="https://sakethchintala.github.io/projects/retail-ops-command-center/"
-    />
-    <meta property="og:title" content="RetailOps Command Center" />
-    <meta
-      property="og:description"
-      content="Production-style retail operations dashboard with live KPI telemetry, scenario planning, and alert orchestration."
-    />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="https://sakethchintala.github.io/projects/retail-ops-command-center/"
-    />
-    <meta
-      property="og:image"
-      content="https://sakethchintala.github.io/projects/retail-ops-command-center/og-image.svg"
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="RetailOps Command Center" />
-    <meta
-      name="twitter:description"
-      content="Production-style retail operations dashboard with live KPI telemetry, scenario planning, and alert orchestration."
-    />
-    <meta
-      name="twitter:image"
-      content="https://sakethchintala.github.io/projects/retail-ops-command-center/og-image.svg"
-    />
     <title>RetailOps Command Center</title>
     <link rel="stylesheet" href="styles/base.css" />
     <link rel="stylesheet" href="styles/layout.css" />
     <link rel="stylesheet" href="styles/components.css" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "RetailOps Command Center",
-        "description": "Production-style retail operations dashboard with live KPI telemetry, scenario planning, and alert orchestration.",
-        "url": "https://sakethchintala.github.io/projects/retail-ops-command-center/",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Any",
-        "author": {
-          "@type": "Person",
-          "name": "Saketh Chintala",
-          "url": "https://sakethchintala.github.io/"
-        }
-      }
-    </script>
   </head>
   <body data-theme="dark">
-    <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <div class="container header-content">
         <div class="brand">
@@ -97,7 +46,7 @@
       </div>
     </header>
 
-    <main id="main" tabindex="-1">
+    <main>
       <section class="hero" id="overview">
         <div class="container hero-grid">
           <div class="hero-copy">
@@ -159,12 +108,7 @@
                 <span class="kpi-delta" id="metric-sales-delta">--</span>
               </div>
               <div class="kpi-value" id="metric-sales-value">--</div>
-              <canvas
-                class="sparkline"
-                id="metric-sales-chart"
-                role="img"
-                aria-label="Net sales trend"
-              ></canvas>
+              <canvas class="sparkline" id="metric-sales-chart"></canvas>
               <div class="kpi-foot">
                 Target <span id="metric-sales-target">--</span>
               </div>
@@ -175,12 +119,7 @@
                 <span class="kpi-delta" id="metric-conversion-delta">--</span>
               </div>
               <div class="kpi-value" id="metric-conversion-value">--</div>
-              <canvas
-                class="sparkline"
-                id="metric-conversion-chart"
-                role="img"
-                aria-label="Conversion rate trend"
-              ></canvas>
+              <canvas class="sparkline" id="metric-conversion-chart"></canvas>
               <div class="kpi-foot">
                 Target <span id="metric-conversion-target">--</span>
               </div>
@@ -191,12 +130,7 @@
                 <span class="kpi-delta" id="metric-orders-delta">--</span>
               </div>
               <div class="kpi-value" id="metric-orders-value">--</div>
-              <canvas
-                class="sparkline"
-                id="metric-orders-chart"
-                role="img"
-                aria-label="Orders shipped trend"
-              ></canvas>
+              <canvas class="sparkline" id="metric-orders-chart"></canvas>
               <div class="kpi-foot">
                 Target <span id="metric-orders-target">--</span>
               </div>
@@ -207,12 +141,7 @@
                 <span class="kpi-delta" id="metric-inventory-delta">--</span>
               </div>
               <div class="kpi-value" id="metric-inventory-value">--</div>
-              <canvas
-                class="sparkline"
-                id="metric-inventory-chart"
-                role="img"
-                aria-label="Inventory health trend"
-              ></canvas>
+              <canvas class="sparkline" id="metric-inventory-chart"></canvas>
               <div class="kpi-foot">
                 Target <span id="metric-inventory-target">--</span>
               </div>
@@ -253,16 +182,13 @@
             </div>
             <div class="table-wrapper">
               <table class="data-table" id="storeTable">
-                <caption class="visually-hidden">
-                  Store performance metrics table.
-                </caption>
                 <thead>
                   <tr>
-                    <th scope="col" data-sort="name">Store</th>
-                    <th scope="col" data-sort="sales">Sales</th>
-                    <th scope="col" data-sort="conversion">Conversion</th>
-                    <th scope="col" data-sort="inventory">Inventory</th>
-                    <th scope="col" data-sort="fulfillment">On-time</th>
+                    <th data-sort="name">Store</th>
+                    <th data-sort="sales">Sales</th>
+                    <th data-sort="conversion">Conversion</th>
+                    <th data-sort="inventory">Inventory</th>
+                    <th data-sort="fulfillment">On-time</th>
                   </tr>
                 </thead>
                 <tbody id="storeTableBody"></tbody>
@@ -277,7 +203,7 @@
                 <p>Actionable signals with severity tags.</p>
               </div>
             </div>
-            <ul class="alert-list" id="alertList" aria-live="polite"></ul>
+            <ul class="alert-list" id="alertList"></ul>
           </div>
         </div>
       </section>
@@ -349,13 +275,12 @@
     </footer>
 
     <noscript>
-      <div class="noscript" role="status">
+      <div class="noscript">
         This experience uses JavaScript to simulate real-time updates. Please
         enable JavaScript to view live telemetry.
       </div>
     </noscript>
 
     <script type="module" src="scripts/app.js"></script>
-    <script defer src="/analytics.js"></script>
   </body>
 </html>

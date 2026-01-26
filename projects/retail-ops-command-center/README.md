@@ -64,17 +64,6 @@ http://localhost:5173
 - **Alert templates**: customize `ALERT_TEMPLATES` in `scripts/data.js`.
 - **Forecast model**: modify `computeForecast()` in `scripts/data.js`.
 
-## SEO and analytics
-
-- Update the `meta name="analytics-id"` tag in:
-  - `/index.html` (portfolio)
-  - `/projects/retail-ops-command-center/index.html` (project)
-- `analytics.js` loads GA4 only when a measurement ID is present and honors
-  Do Not Track.
-- Open Graph images live at:
-  - `/og-image.svg`
-  - `/projects/retail-ops-command-center/og-image.svg`
-
 ## Notes
 
 - Data is simulated for demo purposes.
