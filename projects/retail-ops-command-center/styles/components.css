@@ -1,0 +1,370 @@
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.lead {
+  font-size: 1.1rem;
+  color: var(--color-muted);
+  max-width: 42ch;
+}
+
+.lead-sm {
+  color: var(--color-muted);
+  margin-top: 0.75rem;
+  max-width: 38ch;
+}
+
+.btn {
+  border-radius: 999px;
+  padding: 0.65rem 1.4rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btn.primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn.primary:hover {
+  background: var(--color-primary-strong);
+}
+
+.btn.secondary {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: transparent;
+}
+
+.btn.secondary:hover {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.btn.ghost {
+  background: var(--color-surface-alt);
+  border-color: var(--color-border);
+}
+
+.btn.ghost:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.hero-panel,
+.panel,
+.kpi-card,
+.pipeline-card,
+.slider-card,
+.forecast-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-panel {
+  padding: 1.8rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.panel-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.panel-note {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.health-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.health-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.health-label {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.pill {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.kpi-card {
+  padding: 1.4rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.kpi-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.kpi-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.kpi-delta {
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.kpi-delta.up {
+  color: var(--color-success);
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.kpi-delta.down {
+  color: var(--color-danger);
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.kpi-foot {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.panel {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.panel-header p {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.field-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.8rem 0.4rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.data-table th {
+  color: var(--color-muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.data-table th[data-sort] {
+  cursor: pointer;
+}
+
+.data-table th.sorted {
+  color: var(--color-primary);
+}
+
+.data-table tbody tr + tr {
+  border-top: 1px solid var(--color-border);
+}
+
+.store-name {
+  font-weight: 600;
+}
+
+.store-city {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+.muted-cell {
+  color: var(--color-muted);
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge.success {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--color-success);
+}
+
+.badge.warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--color-warning);
+}
+
+.badge.danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--color-danger);
+}
+
+.alert-list {
+  list-style: none;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.alert-item {
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.alert-item h4 {
+  font-size: 0.95rem;
+}
+
+.alert-item p {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.alert-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.pipeline-card {
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.pipeline-title {
+  font-weight: 600;
+}
+
+.progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.2);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-primary), #38bdf8);
+  width: 0%;
+  transition: width var(--transition);
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.slider-card {
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.slider-output {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+
+.helper-text {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.forecast-card {
+  padding: 1.3rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.forecast-label {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.forecast-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+}
+
+.noscript {
+  background: var(--color-danger);
+  color: #fff;
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}

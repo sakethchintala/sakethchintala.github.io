@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="RetailOps Command Center - Real-time retail operations dashboard showcasing advanced frontend architecture."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <title>RetailOps Command Center</title>
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/layout.css" />
+    <link rel="stylesheet" href="styles/components.css" />
+  </head>
+  <body data-theme="dark">
+    <header class="site-header">
+      <div class="container header-content">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">RO</span>
+          <div>
+            <p class="brand-title">RetailOps</p>
+            <p class="brand-subtitle">Command Center</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="#overview">Overview</a>
+          <a href="#kpis">KPIs</a>
+          <a href="#operations">Operations</a>
+          <a href="#pipeline">Pipeline</a>
+          <a href="#scenario">Scenario</a>
+        </nav>
+        <div class="header-actions">
+          <button class="btn ghost" id="themeToggle" type="button">
+            Switch to Light
+          </button>
+          <button
+            class="btn primary"
+            id="liveToggle"
+            type="button"
+            aria-pressed="true"
+          >
+            Live: On
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="overview">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Retail Operations Intelligence</div>
+            <h1>RetailOps Command Center</h1>
+            <p class="lead">
+              A production-grade dashboard that simulates real-time retail
+              telemetry. Built with clean architecture, accessible UI patterns,
+              and zero external dependencies.
+            </p>
+            <div class="hero-actions">
+              <button class="btn primary" id="snapshotBtn" type="button">
+                Export Snapshot
+              </button>
+              <button class="btn secondary" id="resetFiltersBtn" type="button">
+                Reset Filters
+              </button>
+            </div>
+            <div class="hero-meta" aria-live="polite">
+              Last updated <span id="lastUpdated">--</span>
+            </div>
+          </div>
+          <aside class="hero-panel" aria-label="Daily health summary">
+            <div class="panel-title">Today's Health</div>
+            <div class="health-grid">
+              <div class="health-item">
+                <span class="health-label">On-time delivery</span>
+                <strong id="healthDelivery">--</strong>
+              </div>
+              <div class="health-item">
+                <span class="health-label">Backorder risk</span>
+                <strong id="healthBackorder">--</strong>
+              </div>
+              <div class="health-item">
+                <span class="health-label">Customer sentiment</span>
+                <strong id="healthSentiment">--</strong>
+              </div>
+            </div>
+            <p class="panel-note">
+              Metrics refresh every 8 seconds when live mode is active.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="kpis">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2>Live KPIs</h2>
+              <p>Trailing 60-minute trends with compact sparklines.</p>
+            </div>
+            <div class="pill">Streaming enabled</div>
+          </div>
+          <div class="kpi-grid">
+            <article class="kpi-card" data-metric="sales">
+              <div class="kpi-header">
+                <span>Net Sales</span>
+                <span class="kpi-delta" id="metric-sales-delta">--</span>
+              </div>
+              <div class="kpi-value" id="metric-sales-value">--</div>
+              <canvas class="sparkline" id="metric-sales-chart"></canvas>
+              <div class="kpi-foot">
+                Target <span id="metric-sales-target">--</span>
+              </div>
+            </article>
+            <article class="kpi-card" data-metric="conversion">
+              <div class="kpi-header">
+                <span>Conversion Rate</span>
+                <span class="kpi-delta" id="metric-conversion-delta">--</span>
+              </div>
+              <div class="kpi-value" id="metric-conversion-value">--</div>
+              <canvas class="sparkline" id="metric-conversion-chart"></canvas>
+              <div class="kpi-foot">
+                Target <span id="metric-conversion-target">--</span>
+              </div>
+            </article>
+            <article class="kpi-card" data-metric="orders">
+              <div class="kpi-header">
+                <span>Orders Shipped</span>
+                <span class="kpi-delta" id="metric-orders-delta">--</span>
+              </div>
+              <div class="kpi-value" id="metric-orders-value">--</div>
+              <canvas class="sparkline" id="metric-orders-chart"></canvas>
+              <div class="kpi-foot">
+                Target <span id="metric-orders-target">--</span>
+              </div>
+            </article>
+            <article class="kpi-card" data-metric="inventory">
+              <div class="kpi-header">
+                <span>Inventory Health</span>
+                <span class="kpi-delta" id="metric-inventory-delta">--</span>
+              </div>
+              <div class="kpi-value" id="metric-inventory-value">--</div>
+              <canvas class="sparkline" id="metric-inventory-chart"></canvas>
+              <div class="kpi-foot">
+                Target <span id="metric-inventory-target">--</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="operations">
+        <div class="container two-column">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Store Performance</h3>
+                <p>Search, filter, and sort by KPI.</p>
+              </div>
+              <div class="filters">
+                <label class="field">
+                  <span class="field-label">Search</span>
+                  <input
+                    id="storeSearch"
+                    type="search"
+                    placeholder="Store or city"
+                    autocomplete="off"
+                  />
+                </label>
+                <label class="field">
+                  <span class="field-label">Region</span>
+                  <select id="regionFilter">
+                    <option value="all">All regions</option>
+                    <option value="West">West</option>
+                    <option value="Midwest">Midwest</option>
+                    <option value="South">South</option>
+                    <option value="Northeast">Northeast</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table" id="storeTable">
+                <thead>
+                  <tr>
+                    <th data-sort="name">Store</th>
+                    <th data-sort="sales">Sales</th>
+                    <th data-sort="conversion">Conversion</th>
+                    <th data-sort="inventory">Inventory</th>
+                    <th data-sort="fulfillment">On-time</th>
+                  </tr>
+                </thead>
+                <tbody id="storeTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Alert Stream</h3>
+                <p>Actionable signals with severity tags.</p>
+              </div>
+            </div>
+            <ul class="alert-list" id="alertList"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pipeline">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2>Fulfillment Pipeline</h2>
+              <p>Throughput across order life-cycle stages.</p>
+            </div>
+            <div class="pill">Auto-balanced capacity</div>
+          </div>
+          <div class="pipeline-grid" id="pipelineGrid"></div>
+        </div>
+      </section>
+
+      <section class="section" id="scenario">
+        <div class="container scenario-grid">
+          <div>
+            <h2>Scenario Planner</h2>
+            <p class="lead-sm">
+              Tune demand uplift to preview forecasting impact in real time.
+            </p>
+            <div class="slider-card">
+              <label for="demandSlider" class="field-label">
+                Demand uplift
+              </label>
+              <input
+                id="demandSlider"
+                type="range"
+                min="-10"
+                max="15"
+                step="1"
+                value="3"
+              />
+              <div class="slider-output" id="demandValue">+3%</div>
+              <p class="helper-text">
+                Values adjust the 14-day forecast for sales, orders, and margin.
+              </p>
+            </div>
+          </div>
+          <div class="forecast-grid">
+            <div class="forecast-card">
+              <p class="forecast-label">Forecasted sales</p>
+              <p class="forecast-value" id="forecastSales">--</p>
+            </div>
+            <div class="forecast-card">
+              <p class="forecast-label">Forecasted orders</p>
+              <p class="forecast-value" id="forecastOrders">--</p>
+            </div>
+            <div class="forecast-card">
+              <p class="forecast-label">Projected margin</p>
+              <p class="forecast-value" id="forecastMargin">--</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>Built for portfolio use. Data is simulated for demo purposes.</p>
+        <p>
+          Designed with accessibility, resilience, and clean architecture
+          principles.
+        </p>
+      </div>
+    </footer>
+
+    <noscript>
+      <div class="noscript">
+        This experience uses JavaScript to simulate real-time updates. Please
+        enable JavaScript to view live telemetry.
+      </div>
+    </noscript>
+
+    <script type="module" src="scripts/app.js"></script>
+  </body>
+</html>
