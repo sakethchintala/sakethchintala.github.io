@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Saketh Chintala - Software Engineer II specializing in React, Node.js, and modern web development">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Saketh Chintala">
+    <meta name="analytics-id" content="">
+    <link rel="canonical" href="https://sakethchintala.github.io/">
+    <meta property="og:title" content="Saketh Chintala - Software Engineer II">
+    <meta property="og:description" content="Saketh Chintala - Software Engineer II specializing in React, Node.js, and modern web development">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sakethchintala.github.io/">
+    <meta property="og:image" content="https://sakethchintala.github.io/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Saketh Chintala - Software Engineer II">
+    <meta name="twitter:description" content="Saketh Chintala - Software Engineer II specializing in React, Node.js, and modern web development">
+    <meta name="twitter:image" content="https://sakethchintala.github.io/og-image.svg">
     <title>Saketh Chintala - Software Engineer II</title>
     <style>
         * {
@@ -33,6 +50,30 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: 1.5rem;
+            top: -45px;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            z-index: 2000;
+            transition: var(--transition);
+        }
+
+        .skip-link:focus {
+            top: 1.2rem;
         }
 
         /* Navbar */
@@ -735,8 +776,32 @@
             }
         }
     </style>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "WebSite",
+                    "name": "Saketh Chintala Portfolio",
+                    "url": "https://sakethchintala.github.io/",
+                    "description": "Saketh Chintala - Software Engineer II specializing in React, Node.js, and modern web development."
+                },
+                {
+                    "@type": "Person",
+                    "name": "Saketh Chintala",
+                    "jobTitle": "Software Engineer II",
+                    "url": "https://sakethchintala.github.io/",
+                    "sameAs": [
+                        "https://www.linkedin.com/in/saketh-chintala/",
+                        "https://github.com/sakethchintala/sakethchintala.github.io"
+                    ]
+                }
+            ]
+        }
+    </script>
 </head>
 <body>
+    <a class="skip-link" href="#home">Skip to main content</a>
     <nav class="navbar">
         <div class="nav-content">
             <div class="logo"><a href="#home">SC</a></div>
@@ -768,7 +833,7 @@
             <div class="cta-buttons">
                 <a href="mailto:sakethchinthala@gmail.com" class="btn btn-primary">Get In Touch</a>
                 <a href="https://drive.google.com/uc?export=download&id=1WXP2c9lJ4azrpu3VkaCRrinunOplW11u" download="Saketh_Chintala_Resume.pdf" class="btn btn-secondary">Resume</a>
-                <a href="https://www.linkedin.com/in/saketh-chintala/" target="_blank" class="btn btn-secondary">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/saketh-chintala/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">LinkedIn</a>
             </div>
         </div>
     </section>
@@ -1072,7 +1137,7 @@
                 Whether you have a question or just want to say hi, feel free to reach out!
             </p>
             <div class="social-links">
-                <a href="https://www.linkedin.com/in/saketh-chintala/" target="_blank" class="social-link">
+                <a href="https://www.linkedin.com/in/saketh-chintala/" target="_blank" rel="noopener noreferrer" class="social-link">
                     <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                     </svg>
@@ -1147,5 +1212,6 @@
             observer.observe(el);
         });
     </script>
+    <script defer src="/analytics.js"></script>
 </body>
 </html>
