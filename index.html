@@ -600,6 +600,18 @@
             line-height: 1.8;
         }
 
+        .project-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .project-actions .btn {
+            padding: 0.6rem 1.6rem;
+            font-size: 0.85rem;
+        }
+
         /* Contact Section */
         .contact-content {
             text-align: center;
@@ -1013,6 +1025,19 @@
     <section id="projects">
         <h2 class="section-title">Featured Projects</h2>
         <div class="projects-grid">
+            <div class="project-card">
+                <h3>RetailOps Command Center</h3>
+                <div class="project-date">Jan 2026</div>
+                <p>
+                    Production-style retail operations dashboard with live KPI telemetry, 
+                    scenario planning, and alert orchestration. Built with clean architecture, 
+                    accessible UI patterns, and zero external dependencies.
+                </p>
+                <div class="project-actions">
+                    <a href="projects/retail-ops-command-center/" target="_blank" rel="noopener" class="btn btn-secondary">Live Demo</a>
+                    <a href="projects/retail-ops-command-center/README.md" target="_blank" rel="noopener" class="btn btn-primary">Architecture</a>
+                </div>
+            </div>
             <div class="project-card">
                 <h3>Coursedo - E-Learning Marketplace</h3>
                 <div class="project-date">Jan 2022 - May 2022</div>
