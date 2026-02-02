@@ -1,0 +1,272 @@
+// Prisma Schema for Multi-Tenant SaaS Platform
+// This schema demonstrates production-grade data modeling
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// TENANT MANAGEMENT
+// ============================================
+
+enum TenantPlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+  TRIAL
+  CANCELLED
+}
+
+model Tenant {
+  id            String       @id @default(uuid())
+  name          String       @db.VarChar(255)
+  slug          String       @unique @db.VarChar(100)
+  plan          TenantPlan   @default(FREE)
+  status        TenantStatus @default(TRIAL)
+  
+  // Subscription & Billing
+  trialEndsAt   DateTime?
+  subscriptionStartedAt DateTime?
+  subscriptionEndsAt    DateTime?
+  
+  // Usage Limits (based on plan)
+  maxUsers      Int          @default(5)
+  maxApiCalls   Int          @default(1000)
+  maxStorage    Int          @default(1073741824) // 1GB in bytes
+  
+  // Current Usage (updated periodically)
+  currentUsers  Int          @default(0)
+  apiCallsToday Int          @default(0)
+  storageUsed   BigInt       @default(0)
+  
+  // Metadata
+  industry      String?      @db.VarChar(100)
+  companySize   String?      @db.VarChar(50)
+  website       String?      @db.VarChar(255)
+  
+  // Audit
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  deletedAt     DateTime?
+  
+  // Relations
+  users         User[]
+  invitations   Invitation[]
+  apiKeys       ApiKey[]
+  
+  @@index([slug])
+  @@index([status])
+  @@index([plan])
+  @@map("tenants")
+}
+
+// ============================================
+// USER MANAGEMENT & AUTHENTICATION
+// ============================================
+
+enum UserRole {
+  SUPER_ADMIN  // Platform admin (access all tenants)
+  TENANT_ADMIN // Tenant administrator
+  USER         // Regular tenant user
+  VIEWER       // Read-only access
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING
+}
+
+model User {
+  id          String     @id @default(uuid())
+  tenantId    String?    // Null for SUPER_ADMIN
+  tenant      Tenant?    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  // Authentication
+  email       String     @db.VarChar(255)
+  passwordHash String    @db.VarChar(255)
+  
+  // Profile
+  firstName   String     @db.VarChar(100)
+  lastName    String     @db.VarChar(100)
+  avatar      String?    @db.Text
+  
+  // Authorization
+  role        UserRole   @default(USER)
+  status      UserStatus @default(PENDING)
+  permissions String[]   @default([]) // Custom permissions array
+  
+  // Security
+  lastLoginAt DateTime?
+  lastLoginIp String?    @db.VarChar(45)
+  failedLoginAttempts Int @default(0)
+  lockedUntil DateTime?
+  
+  // Email Verification
+  emailVerified Boolean  @default(false)
+  emailVerifiedAt DateTime?
+  verificationToken String? @unique @db.VarChar(255)
+  
+  // Password Reset
+  resetToken     String?   @unique @db.VarChar(255)
+  resetTokenExpiresAt DateTime?
+  
+  // Audit
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+  createdBy   String?    // User ID who created this user
+  
+  // Relations
+  auditLogs   AuditLog[]
+  
+  @@unique([tenantId, email]) // Email must be unique per tenant
+  @@index([email])
+  @@index([tenantId])
+  @@index([role])
+  @@index([status])
+  @@map("users")
+}
+
+// ============================================
+// INVITATIONS & ONBOARDING
+// ============================================
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+}
+
+model Invitation {
+  id          String           @id @default(uuid())
+  tenantId    String
+  tenant      Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  email       String           @db.VarChar(255)
+  role        UserRole         @default(USER)
+  token       String           @unique @db.VarChar(255)
+  status      InvitationStatus @default(PENDING)
+  
+  invitedBy   String           // User ID
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  
+  @@index([tenantId])
+  @@index([email])
+  @@index([token])
+  @@index([status])
+  @@map("invitations")
+}
+
+// ============================================
+// API KEY MANAGEMENT
+// ============================================
+
+model ApiKey {
+  id          String    @id @default(uuid())
+  tenantId    String
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  name        String    @db.VarChar(255)
+  keyHash     String    @unique @db.VarChar(255) // Hashed API key
+  keyPreview  String    @db.VarChar(20) // First/last chars for display
+  
+  permissions String[]  @default([]) // API permissions
+  
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  
+  isActive    Boolean   @default(true)
+  createdBy   String    // User ID
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([tenantId])
+  @@index([keyHash])
+  @@map("api_keys")
+}
+
+// ============================================
+// AUDIT TRAIL & COMPLIANCE
+// ============================================
+
+enum AuditAction {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  LOGIN_FAILED
+  PASSWORD_RESET
+  PERMISSION_CHANGE
+  EXPORT_DATA
+}
+
+model AuditLog {
+  id          String      @id @default(uuid())
+  tenantId    String?     // Null for platform-level actions
+  userId      String?     // Null for system actions
+  user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  action      AuditAction
+  resource    String      @db.VarChar(100) // e.g., "User", "Tenant", "ApiKey"
+  resourceId  String?     @db.VarChar(100)
+  
+  // Context
+  description String      @db.Text
+  metadata    Json?       // Additional data (before/after state)
+  
+  // Request Info
+  ipAddress   String?     @db.VarChar(45)
+  userAgent   String?     @db.Text
+  
+  createdAt   DateTime    @default(now())
+  
+  @@index([tenantId])
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================
+// REFRESH TOKENS (for JWT rotation)
+// ============================================
+
+model RefreshToken {
+  id          String    @id @default(uuid())
+  userId      String
+  token       String    @unique @db.VarChar(500)
+  
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+  revokedAt   DateTime?
+  replacedBy  String?   @db.VarChar(500) // Token rotation
+  
+  // Security
+  ipAddress   String?   @db.VarChar(45)
+  userAgent   String?   @db.Text
+  
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
