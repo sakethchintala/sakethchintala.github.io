@@ -1,6 +1,6 @@
 # sakethchintala.github.io
 
-Portfolio website for Saketh Chintala - Software Engineer II @ Walmart Global Technology.
+Portfolio website for Saketh Chintala.
 
 This repository showcases production-grade projects demonstrating full-stack development, 
 modern web technologies, AI integration, and clean architecture principles.
@@ -16,7 +16,7 @@ used by companies like Salesforce, HubSpot, and Atlassian.
 
 **Tech Stack:**
 - **Frontend**: React 18, TypeScript, TailwindCSS, TanStack Query
-- **Backend**: Node.js, Express, TypeScript, Prisma ORM
+- **Backend**: Node.js, Express, Prisma ORM
 - **Databases**: PostgreSQL, MongoDB, Redis
 - **AI**: OpenAI GPT-4 integration
 - **Security**: JWT auth, RBAC, rate limiting, audit logging
@@ -73,7 +73,7 @@ scenario planning, and alert orchestration.
 ## 💼 About
 
 **Saketh Chintala**  
-Software Engineer II @ Walmart Global Technology
+Software Engineer II
 
 - 6+ years of experience in full-stack development
 - Expert in React, Node.js, TypeScript, and modern web technologies
@@ -83,7 +83,6 @@ Software Engineer II @ Walmart Global Technology
 **Connect:**
 - 🌐 Portfolio: [sakethchintala.github.io](https://sakethchintala.github.io/)
 - 💼 LinkedIn: [linkedin.com/in/saketh-chintala](https://www.linkedin.com/in/saketh-chintala/)
-- 📧 Email: sakethchinthala@gmail.com
 
 ---
 
@@ -267,10 +266,9 @@ This is a personal portfolio repository, but suggestions and feedback are welcom
 ## 📞 Contact
 
 **Saketh Chintala**  
-Software Engineer II @ Walmart Global Technology
+Software Engineer II
 
 - 💼 LinkedIn: [linkedin.com/in/saketh-chintala](https://www.linkedin.com/in/saketh-chintala/)
-- 📧 Email: sakethchinthala@gmail.com
 - 🌐 Portfolio: [sakethchintala.github.io](https://sakethchintala.github.io/)
 - 💻 GitHub: [@sakethchintala](https://github.com/sakethchintala)
 
@@ -295,4 +293,4 @@ Software Engineer II @ Walmart Global Technology
 
 ---
 
-**Built with ❤️ to demonstrate production-ready software engineering**
+**Built with passion to demonstrate production-ready software engineering**
