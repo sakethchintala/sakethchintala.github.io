@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SaaS Admin & Insights Platform - Production-grade multi-tenant platform with AI-powered insights">
+    <title>SaaS Admin Platform - Live Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 256px;
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .logo-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-600);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .logo-text h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .nav-menu {
+            padding: 1rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item:hover {
+            background: var(--gray-100);
+        }
+
+        .nav-item.active {
+            background: var(--primary-50);
+            color: var(--primary-700);
+            font-weight: 500;
+        }
+
+        .user-section {
+            padding: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 256px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--gray-600);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.blue { background: #dbeafe; }
+        .stat-icon.green { background: #d1fae5; }
+        .stat-icon.purple { background: #e9d5ff; }
+        .stat-icon.orange { background: #fed7aa; }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Insights */
+        .insight-card {
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-500);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .insight-icon.warning { background: #fef3c7; }
+        .insight-icon.info { background: #dbeafe; }
+        .insight-icon.success { background: #d1fae5; }
+
+        .insight-content h4 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .badge.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde68a;
+        }
+
+        .badge.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #93c5fd;
+        }
+
+        .recommendation {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.75rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .recommendation strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        /* Chart placeholder */
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(to top, var(--primary-100), var(--primary-50));
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+            gap: 0.5rem;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: var(--primary-500);
+            border-radius: 4px 4px 0 0;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .chart-bar:hover {
+            opacity: 1;
+        }
+
+        /* Quick Actions */
+        .quick-action {
+            display: block;
+            padding: 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .quick-action:hover {
+            border-color: var(--primary-500);
+            background: var(--primary-50);
+        }
+
+        .quick-action h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .quick-action p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        /* Demo Banner */
+        .demo-banner {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .demo-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Banner -->
+    <div class="demo-banner">
+        🎨 Static Demo Version - 
+        <a href="https://github.com/sakethchintala/sakethchintala.github.io/tree/main/projects/saas-admin-insights-platform" target="_blank">View Full Source Code on GitHub</a>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <div class="logo">
+                <div class="logo-icon">🏢</div>
+                <div class="logo-text">
+                    <h2>Acme Corp</h2>
+                    <p>Pro Plan</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="showPage('dashboard')">
+                📊 Dashboard
+            </div>
+            <div class="nav-item" onclick="showPage('analytics')">
+                📈 Analytics
+            </div>
+            <div class="nav-item" onclick="showPage('insights')">
+                🤖 AI Insights
+            </div>
+            <div class="nav-item" onclick="showPage('users')">
+                👥 Users
+            </div>
+            <div class="nav-item" onclick="showPage('audit')">
+                📝 Audit Logs
+            </div>
+        </nav>
+        
+        <div class="user-section">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 32px; height: 32px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                    JD
+                </div>
+                <div>
+                    <div style="font-weight: 500; font-size: 0.875rem;">John Doe</div>
+                    <div style="font-size: 0.75rem; color: var(--gray-500);">Admin</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="topbar">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="font-weight: 500;">SaaS Admin Platform</div>
+                <div style="font-size: 0.875rem; color: var(--gray-600);">john.doe@acme.com</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="content">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Welcome back! Here's your platform overview.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">👥</div>
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-value">127</div>
+                    <div class="stat-change">89 active users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">⚡</div>
+                    <div class="stat-label">API Calls Today</div>
+                    <div class="stat-value">8,547</div>
+                    <div class="stat-change">Real-time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">💾</div>
+                    <div class="stat-label">Storage Used</div>
+                    <div class="stat-value">12.4 GB</div>
+                    <div class="stat-change">Total storage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">📈</div>
+                    <div class="stat-label">Growth Rate</div>
+                    <div class="stat-value">+18.2%</div>
+                    <div class="stat-change">Last 30 days</div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div class="card">
+                    <h3>Quick Actions</h3>
+                    <a href="#" class="quick-action" onclick="showPage('insights'); return false;">
+                        <h4>Generate AI Insights</h4>
+                        <p>Get intelligent recommendations based on your platform metrics</p>
+                    </a>
+                    <a href="#" class="quick-action" onclick="showPage('users'); return false;">
+                        <h4>Manage Users</h4>
+                        <p>View and manage user accounts and permissions</p>
+                    </a>
+                    <a href="#" class="quick-action" onclick="showPage('analytics'); return false;">
+                        <h4>View Analytics</h4>
+                        <p>Deep dive into usage trends and performance metrics</p>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Activity</h3>
+                    <div style="space-y: 1rem;">
+                        <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--gray-200);">
+                            <div style="font-weight: 500; font-size: 0.875rem;">New user registered</div>
+                            <div style="font-size: 0.75rem; color: var(--gray-500);">2 minutes ago</div>
+                        </div>
+                        <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--gray-200);">
+                            <div style="font-weight: 500; font-size: 0.875rem;">API limit increased</div>
+                            <div style="font-size: 0.75rem; color: var(--gray-500);">1 hour ago</div>
+                        </div>
+                        <div style="padding: 0.75rem 0;">
+                            <div style="font-weight: 500; font-size: 0.875rem;">System backup completed</div>
+                            <div style="font-size: 0.75rem; color: var(--gray-500);">3 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div id="analytics-page" class="content hidden">
+            <div class="page-header">
+                <h1>Analytics</h1>
+                <p>Detailed insights into your platform usage and performance.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Active Users</div>
+                    <div class="stat-value">89</div>
+                    <div class="stat-change">127 total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">API Calls</div>
+                    <div class="stat-value">8,547</div>
+                    <div class="stat-change">Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Storage</div>
+                    <div class="stat-value">12.4</div>
+                    <div class="stat-change">GB used</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Growth</div>
+                    <div class="stat-value">+18.2%</div>
+                    <div class="stat-change">Last 30 days</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>User Activity (Last 30 Days)</h3>
+                <div class="chart-placeholder">
+                    <div class="chart-bar" style="height: 60%;"></div>
+                    <div class="chart-bar" style="height: 75%;"></div>
+                    <div class="chart-bar" style="height: 55%;"></div>
+                    <div class="chart-bar" style="height: 85%;"></div>
+                    <div class="chart-bar" style="height: 70%;"></div>
+                    <div class="chart-bar" style="height: 90%;"></div>
+                    <div class="chart-bar" style="height: 80%;"></div>
+                    <div class="chart-bar" style="height: 95%;"></div>
+                    <div class="chart-bar" style="height: 88%;"></div>
+                    <div class="chart-bar" style="height: 92%;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>API Usage Trends</h3>
+                <div class="chart-placeholder">
+                    <div class="chart-bar" style="height: 45%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 55%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 48%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 65%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 58%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 72%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 68%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 85%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 78%; background: #10b981;"></div>
+                    <div class="chart-bar" style="height: 90%; background: #10b981;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Insights Page -->
+        <div id="insights-page" class="content hidden">
+            <div class="page-header">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h1>🤖 AI Insights</h1>
+                        <p>Intelligent recommendations powered by OpenAI to optimize your platform.</p>
+                    </div>
+                    <button style="background: var(--primary-600); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; cursor: pointer;">
+                        ✨ Generate Insights
+                    </button>
+                </div>
+            </div>
+
+            <div style="background: var(--primary-50); border: 1px solid var(--primary-200); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <div style="display: flex; gap: 0.75rem;">
+                    <div style="font-size: 1.25rem;">ℹ️</div>
+                    <div>
+                        <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.25rem;">How AI Insights Work</h3>
+                        <p style="font-size: 0.875rem; color: var(--gray-700);">
+                            Our AI analyzes your platform metrics, usage patterns, and trends to provide actionable recommendations. All insights are grounded in your actual data.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-header">
+                    <div class="insight-icon warning">⚠️</div>
+                    <div class="insight-content" style="flex: 1;">
+                        <h4>High API Usage Detected</h4>
+                        <div class="insight-badges">
+                            <span class="badge warning">Anomaly</span>
+                            <span class="badge info">High Priority</span>
+                            <span>87% confidence</span>
+                        </div>
+                        <p style="color: var(--gray-700); margin-bottom: 0.75rem;">
+                            Your API calls increased by 300% in the last 24 hours. You're approaching your Pro plan limit of 10,000 calls per hour.
+                        </p>
+                        <div class="recommendation">
+                            <strong>💡 Recommendation</strong>
+                            <p style="font-size: 0.875rem; color: var(--gray-700);">
+                                Consider implementing request caching to reduce API calls, or upgrade to Enterprise tier for unlimited usage.
+                            </p>
+                        </div>
+                        <div style="background: var(--gray-50); padding: 0.75rem; border-radius: 8px; margin-top: 0.75rem; border: 1px solid var(--gray-200);">
+                            <strong style="font-size: 0.875rem; display: block; margin-bottom: 0.25rem;">📈 Expected Impact</strong>
+                            <p style="font-size: 0.875rem; color: var(--gray-700);">
+                                Implementing caching could reduce API calls by 40-60%, preventing service interruptions and reducing costs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-header">
+                    <div class="insight-icon info">ℹ️</div>
+                    <div class="insight-content" style="flex: 1;">
+                        <h4>Low User Engagement Detected</h4>
+                        <div class="insight-badges">
+                            <span class="badge info">Recommendation</span>
+                            <span class="badge" style="background: #fef3c7; color: #92400e; border-color: #fde68a;">Medium Priority</span>
+                            <span>82% confidence</span>
+                        </div>
+                        <p style="color: var(--gray-700); margin-bottom: 0.75rem;">
+                            Only 70% of your users are active. This suggests potential onboarding or value realization issues.
+                        </p>
+                        <div class="recommendation">
+                            <strong>💡 Recommendation</strong>
+                            <p style="font-size: 0.875rem; color: var(--gray-700);">
+                                Implement in-app tutorials, send targeted email campaigns, or conduct user feedback surveys to improve engagement.
+                            </p>
+                        </div>
+                        <div style="background: var(--gray-50); padding: 0.75rem; border-radius: 8px; margin-top: 0.75rem; border: 1px solid var(--gray-200);">
+                            <strong style="font-size: 0.875rem; display: block; margin-bottom: 0.25rem;">📈 Expected Impact</strong>
+                            <p style="font-size: 0.875rem; color: var(--gray-700);">
+                                Increasing engagement to 85% could improve retention by 25% and reduce churn rate.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-card" style="border-left-color: #10b981;">
+                <div class="insight-header">
+                    <div class="insight-icon success">✅</div>
+                    <div class="insight-content" style="flex: 1;">
+                        <h4>Optimal Performance Detected</h4>
+                        <div class="insight-badges">
+                            <span class="badge" style="background: #d1fae5; color: #065f46; border-color: #6ee7b7;">Optimization</span>
+                            <span class="badge" style="background: #d1fae5; color: #065f46; border-color: #6ee7b7;">Low Priority</span>
+                            <span>95% confidence</span>
+                        </div>
+                        <p style="color: var(--gray-700); margin-bottom: 0.75rem;">
+                            Your system is performing exceptionally well. Average API response time is 120ms, which is 40% faster than industry average.
+                        </p>
+                        <div class="recommendation">
+                            <strong>💡 Recommendation</strong>
+                            <p style="font-size: 0.875rem; color: var(--gray-700);">
+                                Consider documenting your optimization techniques and sharing them with your team as best practices.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Page -->
+        <div id="users-page" class="content hidden">
+            <div class="page-header">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h1>👥 Users</h1>
+                        <p>Manage user accounts and permissions for your organization.</p>
+                    </div>
+                    <button style="background: var(--primary-600); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; cursor: pointer;">
+                        + Invite User
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-value">127</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Users</div>
+                    <div class="stat-value" style="color: #10b981;">89</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Invites</div>
+                    <div class="stat-value" style="color: #f59e0b;">12</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>User List</h3>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead style="background: var(--gray-50); border-bottom: 1px solid var(--gray-200);">
+                            <tr>
+                                <th style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: var(--gray-500); text-transform: uppercase;">User</th>
+                                <th style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: var(--gray-500); text-transform: uppercase;">Role</th>
+                                <th style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: var(--gray-500); text-transform: uppercase;">Status</th>
+                                <th style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: var(--gray-500); text-transform: uppercase;">Last Login</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background: white;">
+                            <tr style="border-bottom: 1px solid var(--gray-200);">
+                                <td style="padding: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <div style="width: 40px; height: 40px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">JD</div>
+                                        <div>
+                                            <div style="font-weight: 500; font-size: 0.875rem;">John Doe</div>
+                                            <div style="font-size: 0.875rem; color: var(--gray-500);">john.doe@acme.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <span class="badge" style="background: #e9d5ff; color: #6b21a8; border-color: #d8b4fe;">TENANT_ADMIN</span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <span class="badge" style="background: #d1fae5; color: #065f46; border-color: #6ee7b7;">ACTIVE</span>
+                                </td>
+                                <td style="padding: 1rem; font-size: 0.875rem; color: var(--gray-600);">
+                                    Just now
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--gray-200);">
+                                <td style="padding: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <div style="width: 40px; height: 40px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">JS</div>
+                                        <div>
+                                            <div style="font-weight: 500; font-size: 0.875rem;">Jane Smith</div>
+                                            <div style="font-size: 0.875rem; color: var(--gray-500);">jane.smith@acme.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <span class="badge info">USER</span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <span class="badge" style="background: #d1fae5; color: #065f46; border-color: #6ee7b7;">ACTIVE</span>
+                                </td>
+                                <td style="padding: 1rem; font-size: 0.875rem; color: var(--gray-600);">
+                                    2 hours ago
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <div style="width: 40px; height: 40px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">MJ</div>
+                                        <div>
+                                            <div style="font-weight: 500; font-size: 0.875rem;">Mike Johnson</div>
+                                            <div style="font-size: 0.875rem; color: var(--gray-500);">mike.j@acme.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <span class="badge info">USER</span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <span class="badge warning">PENDING</span>
+                                </td>
+                                <td style="padding: 1rem; font-size: 0.875rem; color: var(--gray-400);">
+                                    Never
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Logs Page -->
+        <div id="audit-page" class="content hidden">
+            <div class="page-header">
+                <h1>📝 Audit Logs</h1>
+                <p>Complete activity trail for compliance and security monitoring.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Events</div>
+                    <div class="stat-value">1,247</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Today</div>
+                    <div class="stat-value" style="color: var(--primary-600);">87</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Failed Logins</div>
+                    <div class="stat-value" style="color: #ef4444;">3</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Unique Users</div>
+                    <div class="stat-value" style="color: #8b5cf6;">45</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="border-bottom: 1px solid var(--gray-200); padding-bottom: 1rem;">Activity Timeline</h3>
+                <div>
+                    <div style="padding: 1.5rem 0; border-bottom: 1px solid var(--gray-200); display: flex; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center;">⚡</div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span class="badge" style="background: #d1fae5; color: #065f46; border-color: #6ee7b7;">CREATE</span>
+                                <span style="font-size: 0.875rem; color: var(--gray-500);">User</span>
+                            </div>
+                            <div style="font-size: 0.875rem; margin-bottom: 0.5rem;">User registered and tenant created</div>
+                            <div style="font-size: 0.75rem; color: var(--gray-500);">
+                                👤 John Doe • 📅 Feb 02, 2026 10:30:00 • 🌐 IP: 192.168.1.1
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem 0; border-bottom: 1px solid var(--gray-200); display: flex; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center;">⚡</div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span class="badge" style="background: #e9d5ff; color: #6b21a8; border-color: #d8b4fe;">LOGIN</span>
+                                <span style="font-size: 0.875rem; color: var(--gray-500);">User</span>
+                            </div>
+                            <div style="font-size: 0.875rem; margin-bottom: 0.5rem;">User logged in successfully</div>
+                            <div style="font-size: 0.75rem; color: var(--gray-500);">
+                                👤 Jane Smith • 📅 Feb 02, 2026 09:15:22 • 🌐 IP: 192.168.1.2
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem 0; display: flex; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center;">⚡</div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span class="badge info">UPDATE</span>
+                                <span style="font-size: 0.875rem; color: var(--gray-500);">User</span>
+                            </div>
+                            <div style="font-size: 0.875rem; margin-bottom: 0.5rem;">User profile updated</div>
+                            <div style="font-size: 0.75rem; color: var(--gray-500);">
+                                👤 Mike Johnson • 📅 Feb 02, 2026 08:45:10 • 🌐 IP: 192.168.1.3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            document.getElementById(pageName + '-page').classList.remove('hidden');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
